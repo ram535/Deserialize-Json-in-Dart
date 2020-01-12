@@ -2,33 +2,34 @@ import 'dart:convert' show json;
 import 'dart:io' show File;
 
 void main() async {
-  String jsonString = await File('student.json').readAsString();
+  String jsonString = await File('school.json').readAsString();
   final Map jsonResponse = json.decode(jsonString);
-  Student student = Student.fromJson(jsonResponse);
-  print(student.score.art);
+  School school = School.fromJson(jsonResponse);
+  print(school.students[0].name);
 }
 
-class Student {
-  final String name;
-  final Score score;
+class School {
+  final String schoolName;
+  final List<Student> students;
 
-  Student({this.name, this.score});
+  School({this.schoolName, this.students});
 
-  factory Student.fromJson(Map<String, dynamic> parsedJson) {
-    return Student(
-        name: parsedJson['name'], score: Score.fromJson(parsedJson['score']));
+  factory School.fromJson(Map<String, dynamic> parsedJson) {
+    print(parsedJson['students'].runtimeType);
+    print(parsedJson['students']);
+    var list = parsedJson['students'] as List;
+    print(list.runtimeType);
+    print(list);
+    List<Student> studentList = list.map((i) => Student.fromJson(i)).toList();
+    return School(schoolName: parsedJson['schoolName'], students: studentList);
   }
 }
 
-class Score {
-  double math;
-  double spanish;
-  double art;
-  Score({this.math, this.spanish, this.art});
-  factory Score.fromJson(Map<String, dynamic> json) {
-    print(json.runtimeType);
-    print(json['math'].runtimeType);
-    return Score(
-        math: json['math'], spanish: json['spanish'], art: json['art']);
+class Student {
+  String name;
+  double score;
+  Student({this.name, this.score});
+  factory Student.fromJson(Map<String, dynamic> parsedJson) {
+    return Student(name: parsedJson['name'], score: parsedJson['score']);
   }
 }

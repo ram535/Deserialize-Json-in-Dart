@@ -1,0 +1,13 @@
+{
+ "schoolName": "Big School",
+ "students": [
+  {
+   "name": "sindi",
+   "score": 9.0
+  },
+  {
+   "name": "monkey",
+   "score": 10.0
+  }
+ ]
+}
