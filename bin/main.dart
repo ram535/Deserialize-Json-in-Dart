@@ -15,12 +15,11 @@ class School {
   School({this.schoolName, this.students});
 
   factory School.fromJson(Map<String, dynamic> parsedJson) {
-    print(parsedJson['students'].runtimeType);
-    print(parsedJson['students']);
-    var list = parsedJson['students'] as List;
-    print(list.runtimeType);
-    print(list);
-    List<Student> studentList = list.map((i) => Student.fromJson(i)).toList();
+    print(parsedJson['students'].runtimeType); //List<dynamic>
+    var list = parsedJson['students']; // as List
+    // List<Student> studentList = list.map((i) => Student.fromJson(i)).toList();
+    List<Student> studentList =
+        list.map<Student>((i) => Student.fromJson(i)).toList();
     return School(schoolName: parsedJson['schoolName'], students: studentList);
   }
 }

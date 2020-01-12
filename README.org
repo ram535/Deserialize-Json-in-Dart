@@ -1,0 +1,68 @@
+* Nested Structure in a List
+	This time we have a list with objects.
+
+  #+BEGIN_SRC json
+    {
+      "schoolName": "Big School",
+      "students": [
+        {
+          "name": "sindi",
+          "score": 9.0
+        },
+        {
+          "name": "monkey",
+          "score": 10.0
+        }
+      ]
+    }
+  #+END_SRC
+
+* Gotchas
+  #+BEGIN_SRC dart
+    .
+    .
+      factory School.fromJson(Map<String, dynamic> parsedJson) {
+        var list = parsedJson['students']; // as List
+        // List<Student> studentList = list.map((i) => Student.fromJson(i)).toList();
+        List<Student> studentList =
+            list.map<Student>((i) => Student.fromJson(i)).toList();
+    .
+    .
+  #+END_SRC
+
+** Reponse on Gitter by @simolus3
+   Disclaimer: I'm only like 90% sure about why that happens, but let me try to explain.
+   If the compiler knows that list is actually a list (which it does if you add ~as List~),
+   it also knows that map is a method taking a type parameter. Since we expect a ~List<Student>~,
+   it can infer that map needs to be called with ~Student~ as type parameter. So even though we don't
+   have to write it down, map would be called with ~Student~ in the compiled code.
+   Now without ~as List~, the compiler doesn't what kind of method map is.
+   Looking up that method will happen at runtime. There's no type inference at runtime, so the
+   result is of type List<dynamic>, even though each entry is a string. When trying to assign
+   a List<dynamic> to a List<Student>, a type error will be thrown.
+
+   Yeah it's not really intuitive. Personally I just try to avoid all invocations on dynamic
+   altogether and always add an explicit cast. You could also enable stricter analysis, disabling
+   implicit-casts would have caught the error.
+
+** In other words
+   We have to tell explicity to:
+
+   #+begin_src dart
+     list.map();
+   #+end_src
+
+   That is going to use an iterable of type ~<Student>~.
+
+   #+begin_src dart
+     list.map<Student>();
+   #+end_src
+
+   Otherwise it will not know how to handle a ~List<dynamic>~.
+
+   ~as List~ make it possible that ~map()~ can infere that the type is going to be ~List<Student>~.
+   So we can use it without specifying the type explicity.
+
+   #+begin_src dart
+     list.map();
+   #+end_src
