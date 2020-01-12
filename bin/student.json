@@ -1,5 +1,4 @@
 {
-  "id":"487349",
   "name":"Sindi Aldama",
-  "classes" : ["Math", "Spanish", "Art" ]
+  "topicScores" : {"Math": 9, "Spanish":8, "Art": 7 }
 }
