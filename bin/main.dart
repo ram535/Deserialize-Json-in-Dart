@@ -5,24 +5,22 @@ void main() async {
   String jsonString = await File('student.json').readAsString();
   final Map jsonResponse = json.decode(jsonString);
   Student student = Student.fromJson(jsonResponse);
-  print(jsonString);
-  print(jsonResponse);
-  print(jsonResponse['id']);
-  print(student);
-  print(student.studentName);
+  print(student.classes);
 }
 
 class Student {
-  String studentId;
-  String studentName;
-  int studentScores;
+  final String id;
+  final String name;
+  final List<String> classes;
 
-  Student({this.studentId, this.studentName, this.studentScores});
+  Student({this.id, this.name, this.classes});
 
   factory Student.fromJson(Map<String, dynamic> parsedJson) {
+    var classesFromJson = parsedJson['classes'];
+    print(classesFromJson.runtimeType);
+    // List<String> classesList = List<String>.from(classesFromJson);
+    List<String> classesList = classesFromJson.cast<String>();
     return Student(
-        studentId: parsedJson['id'],
-        studentName: parsedJson['name'],
-        studentScores: parsedJson['score']);
+        id: parsedJson['id'], name: parsedJson['name'], classes: classesList);
   }
 }

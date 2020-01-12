@@ -1,4 +1,8 @@
-A sample command-line application.
+#Gochas
 
-Created from templates made available by Stagehand under a BSD-style
-[license](https://github.com/dart-lang/stagehand/blob/master/LICENSE).
+In the class Student, we expect that the variable classes be of the type
+List<String> but the variable parsedJson['classes'] is of type List<dynamic>.
+
+So we need to cast it to string using:
+
+parsedJson['classes'].cast<String>();
