@@ -1,4 +1,4 @@
 {
   "name":"Sindi Aldama",
-  "topicScores" : {"Math": 9, "Spanish":8, "Art": 7 }
+  "score" : {"math": 9.0, "spanish":8.3, "art": 7.1 }
 }
